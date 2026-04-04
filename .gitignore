@@ -1,0 +1,44 @@
+# ========================
+# Dependencies
+# ========================
+node_modules/
+
+# ========================
+# Environment files 🔐
+# ========================
+.env
+.env.*
+
+# Backend specific env
+backend/config/config.env
+
+# ========================
+# Build / Production
+# ========================
+build/
+dist/
+frontend/build/
+backend/build/
+
+# ========================
+# Testing
+# ========================
+coverage/
+
+# ========================
+# Logs
+# ========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========================
+# System files
+# ========================
+.DS_Store
+
+# ========================
+# Editor / IDE
+# ========================
+.vscode/
