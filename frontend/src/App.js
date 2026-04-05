@@ -40,10 +40,10 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentSuccess from "./components/Cart/PaymentSuccess";
 
-
+ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 function App() {
 
- const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -105,14 +105,7 @@ function App() {
           </ProtectedRoute>
         } ></Route>
 
-        <Route 
-  path="/payment-success" 
-  element={
-    <ProtectedRoute>
-      <PaymentSuccess />
-    </ProtectedRoute>
-  } 
-/>
+     
 
         <Route path="/order/confirm" element={
           <ProtectedRoute>
