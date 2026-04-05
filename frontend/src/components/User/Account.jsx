@@ -15,9 +15,9 @@ const Account = () => {
     const { user, loading, isAuthenticated } = useSelector(state => state.user)
 
     useEffect(() => {
-        if (isAuthenticated === false) {
-            navigate("/login")
-        }
+        if (!isAuthenticated) {
+    navigate("/login")
+}
     }, [isAuthenticated, navigate]);
 
     const getLastName = () => {
@@ -25,6 +25,8 @@ const Account = () => {
     const nameArray = user.name.split(" ");
     return nameArray[nameArray.length - 1];
 }
+if (loading) return <Loader />;
+if (!user) return null;
 
     return (
         <>
@@ -53,7 +55,7 @@ const Account = () => {
                                                 <label className="text-xs text-gray-500">First Name</label>
                                                 <input 
   type="text" 
-  value={user?.name?.split(" ", 1) || ""} 
+  value={user?.name?.split(" ")[0] || ""}
   className="text-sm outline-none border-none cursor-not-allowed text-gray-500" 
   disabled 
 />
