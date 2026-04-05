@@ -74,7 +74,7 @@ const Header = () => {
                 className="userDropDown flex items-center text-white font-medium gap-1 cursor-pointer"
                 onClick={() => setTogglePrimaryDropDown(!togglePrimaryDropDown)}
               >
-                {user?.name && user.name.split(" ", 1)}
+                {user?.name?.split(" ", 1)}
                 <span>
                   {togglePrimaryDropDown ? <ExpandLessIcon sx={{ fontSize: "16px" }} /> : <ExpandMoreIcon sx={{ fontSize: "16px" }} />}
                 </span>

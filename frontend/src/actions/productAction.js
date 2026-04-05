@@ -33,6 +33,8 @@ import {
     SLIDER_PRODUCTS_FAIL,
 } from "../constants/productConstants";
 
+const API = process.env.REACT_APP_API_URL;
+
 // Get All Products --- Filter/Search/Sort
 export const getProducts =
   (keyword = "", category, price = [0, 200000], ratings = 0, currentPage = 1) =>
@@ -47,6 +49,8 @@ export const getProducts =
       }
 
       const { data } = await axios.get(url);
+
+      
 
       dispatch({
         type: ALL_PRODUCTS_SUCCESS,
@@ -66,7 +70,7 @@ export const getSimilarProducts = (category) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/products?category=${category}`);
+        const { data } = await axios.get(`${API}/products?category=${category}`);
 
         dispatch({
             type: ALL_PRODUCTS_SUCCESS,
@@ -85,7 +89,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/product/${id}`);
+        const { data } = await axios.get(`${API}/product/${id}`);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
@@ -104,7 +108,7 @@ export const newReview = (reviewData) => async (dispatch) => {
     try {
         dispatch({ type: NEW_REVIEW_REQUEST });
         const config = { header: { "Content-Type": "application/json" } }
-        const { data } = await axios.put("/api/v1/review", reviewData, config);
+        const { data } = await axios.put(`${API}/review`, reviewData, config);
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -123,7 +127,7 @@ export const getSliderProducts = () => async (dispatch) => {
     try {
         dispatch({ type: SLIDER_PRODUCTS_REQUEST });
 
-        const { data } = await axios.get('/api/v1/products/all');
+        const { data } = await axios.get(`${API}/products/all`);
 
         dispatch({
             type: SLIDER_PRODUCTS_SUCCESS,
@@ -142,7 +146,7 @@ export const getAdminProducts = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_PRODUCTS_REQUEST });
 
-        const { data } = await axios.get('/api/v1/admin/products');
+        const { data } = await axios.get(`${API}/admin/products`);
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
