@@ -4,6 +4,14 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const errorMiddleware = require('./middlewares/error');
 const cors = require('cors');
+
+app.use(cors({
+  origin: [
+    "https://flipkart-l3du.vercel.app",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
 const app = express();
 
 // config
