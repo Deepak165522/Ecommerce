@@ -10,15 +10,15 @@ const Account = () => {
 
     
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const { user, loading, isAuthenticated } = useSelector(state => state.user)
+    const { user, loading} = useSelector(state => state.user)
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-    navigate("/login")
-}
-    }, [isAuthenticated, navigate]);
+//     useEffect(() => {
+//         if (!isAuthenticated) {
+//     navigate("/login")
+// }
+//     }, [isAuthenticated, navigate]);
 
     const getLastName = () => {
     if (!user?.name) return "";
@@ -26,7 +26,7 @@ const Account = () => {
     return nameArray[nameArray.length - 1];
 }
 if (loading) return <Loader />;
-if (!user) return null;
+if (!user && !loading) return null;
 
     return (
         <>

@@ -5,13 +5,20 @@ const ProtectedRoute = ({ children, isAdmin }) => {
 
     const { loading, isAuthenticated, user } = useSelector(state => state.user);
 
-    return (
-        <>
-            {loading === false && (
-                isAuthenticated === false ? <Navigate to="/login" /> : isAdmin ? user.role !== "admin" ? <Navigate to="/login" /> : children : children
-            )}
-        </>
-    );
+    // 🔥 IMPORTANT: wait for loading
+    if (loading) return null;
+
+    // 🔥 not logged in
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    // 🔥 admin check
+    if (isAdmin && user?.role !== "admin") {
+        return <Navigate to="/login" replace />;
+    }
+
+    return children;
 };
 
 export default ProtectedRoute;
