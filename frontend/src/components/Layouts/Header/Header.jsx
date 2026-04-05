@@ -63,18 +63,18 @@ const Header = () => {
         <div className="flex items-center justify-between ml-1 sm:ml-0 gap-0.5 sm:gap-7 relative">
 
           {/* 🔥 USER DROPDOWN FIX */}
-          {!isAuthenticated ? (
-            <Link to="/login" className="px-3 sm:px-9 py-0.5 text-primary-blue bg-white border font-medium rounded-sm cursor-pointer">
-              Login
-            </Link>
-          ) : (
+          {!isAuthenticated || !user ? (
+  <Link to="/login" className="px-3 sm:px-9 py-0.5 text-primary-blue bg-white border font-medium rounded-sm cursor-pointer">
+    Login
+  </Link>
+) : (
             <div ref={primaryRef} className="relative"> {/* ✅ IMPORTANT */}
               
               <span
                 className="userDropDown flex items-center text-white font-medium gap-1 cursor-pointer"
                 onClick={() => setTogglePrimaryDropDown(!togglePrimaryDropDown)}
               >
-                {user?.name?.split(" ", 1)}
+                {user?.name?.split(" ")[0]}
                 <span>
                   {togglePrimaryDropDown ? <ExpandLessIcon sx={{ fontSize: "16px" }} /> : <ExpandMoreIcon sx={{ fontSize: "16px" }} />}
                 </span>
