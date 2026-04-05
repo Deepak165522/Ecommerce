@@ -35,27 +35,31 @@ import {
 
 // Get All Products --- Filter/Search/Sort
 export const getProducts =
-    (keyword = "", category, price = [0, 200000], ratings = 0, currentPage = 1) => async (dispatch) => {
-        try {
-            dispatch({ type: ALL_PRODUCTS_REQUEST });
+  (keyword = "", category, price = [0, 200000], ratings = 0, currentPage = 1) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-            let url = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
-            if (category) {
-                url = `/api/v1/products?keyword=${keyword}&category=${category}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
-            }
-            const { data } = await axios.get(url);
+      let url = `${process.env.REACT_APP_API_URL}/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
 
-            dispatch({
-                type: ALL_PRODUCTS_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            dispatch({
-                type: ALL_PRODUCTS_FAIL,
-                payload: error.response.data.message,
-            });
-        }
-    };
+      if (category) {
+        url = `${process.env.REACT_APP_API_URL}/products?keyword=${keyword}&category=${category}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
+      }
+
+      const { data } = await axios.get(url);
+
+      dispatch({
+        type: ALL_PRODUCTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: ALL_PRODUCTS_FAIL,
+        payload: error?.response?.data?.message || "Error",
+      });
+    }
+  };
 
 // Get All Products Of Same Category
 export const getSimilarProducts = (category) => async (dispatch) => {

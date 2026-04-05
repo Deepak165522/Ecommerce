@@ -146,11 +146,12 @@ const ProductTable = () => {
 
     const rows = [];
 
-    products && products.forEach((item) => {
+   if (products && products.length > 0) {
+    products.forEach((item) => {
         rows.unshift({
             id: item._id,
             name: item.name,
-            image: item.images[0].url,
+            image: item?.images?.[0]?.url || "https://via.placeholder.com/150",
             category: item.category,
             stock: item.stock,
             price: item.price,
@@ -158,6 +159,7 @@ const ProductTable = () => {
             rating: item.ratings,
         });
     });
+}
 
     return (
         <>
