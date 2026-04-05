@@ -5,6 +5,13 @@ const fileUpload = require('express-fileupload');
 const errorMiddleware = require('./middlewares/error');
 const cors = require('cors');
 
+
+const app = express();
+
+// config
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: 'backend/config/config.env' });
+}
 app.use(cors({
   origin: [
     "https://flipkart-l3du.vercel.app",
@@ -12,13 +19,6 @@ app.use(cors({
   ],
   credentials: true
 }));
-const app = express();
-
-// config
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: 'backend/config/config.env' });
-}
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
