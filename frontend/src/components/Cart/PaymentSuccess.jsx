@@ -4,36 +4,34 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
-    
 
     const navigate = useNavigate();
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-    const { user } = useSelector((state) => state.user);
 
-   useEffect(() => {
-  const createOrder = async () => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get("session_id");
+    useEffect(() => {
+        const createOrder = async () => {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const sessionId = params.get("session_id");
 
-      const res = await axios.post(
-        "http://localhost:4000/api/v1/order/new",
-        {
-          shippingInfo,
-          orderItems: cartItems,
-          totalPrice: cartItems.reduce(
-            (sum, i) => sum + i.price * i.quantity,
-            0
-          ),
-          paymentInfo: {
-            id: sessionId,
-            status: "succeeded",
-          },
-        },
-        {
-          withCredentials: true, // 🔥 MUST
-        }
-      );
+                const res = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/order/new`,  // ✅ FIXED
+                    {
+                        shippingInfo,
+                        orderItems: cartItems,
+                        totalPrice: cartItems.reduce(
+                            (sum, i) => sum + i.price * i.quantity,
+                            0
+                        ),
+                        paymentInfo: {
+                            id: sessionId,
+                            status: "succeeded",
+                        },
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                );
 
       navigate("/orders/success");
     } catch (error) {
