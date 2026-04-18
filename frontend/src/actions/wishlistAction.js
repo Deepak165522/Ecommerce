@@ -1,9 +1,13 @@
 import axios from "axios";
 import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from "../constants/wishlistConstants";
 
+// ✅ IMPORTANT
+const API = process.env.REACT_APP_API_URL;
+
 // Add To Wishlist
 export const addToWishlist = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+
+    const { data } = await axios.get(`${API}/product/${id}`);
 
     dispatch({
         type: ADD_TO_WISHLIST,
@@ -18,8 +22,8 @@ export const addToWishlist = (id) => async (dispatch, getState) => {
         },
     });
 
-    localStorage.setItem('wishlistItems', JSON.stringify(getState().wishlist.wishlistItems))
-}
+    localStorage.setItem('wishlistItems', JSON.stringify(getState().wishlist.wishlistItems));
+};
 
 // Remove From Wishlist
 export const removeFromWishlist = (id) => async (dispatch, getState) => {
@@ -29,5 +33,5 @@ export const removeFromWishlist = (id) => async (dispatch, getState) => {
         payload: id,
     });
 
-    localStorage.setItem('wishlistItems', JSON.stringify(getState().wishlist.wishlistItems))
-}
+    localStorage.setItem('wishlistItems', JSON.stringify(getState().wishlist.wishlistItems));
+};
