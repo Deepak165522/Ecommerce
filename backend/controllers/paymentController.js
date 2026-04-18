@@ -122,7 +122,7 @@ exports.stripeCheckoutSession = asyncErrorHandler(async (req, res, next) => {
         mode: "payment",
 
         // 🔥 VERY IMPORTANT
-        success_url: `${process.env.FRONTEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: "http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}",
 cancel_url: `${process.env.FRONTEND_URL}/orders/failed`,
     });
 

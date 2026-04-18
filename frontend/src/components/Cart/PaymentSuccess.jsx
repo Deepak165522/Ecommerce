@@ -11,48 +11,48 @@ const PaymentSuccess = () => {
     const { user } = useSelector((state) => state.user);
 
    useEffect(() => {
+  const createOrder = async () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
 
-    const createOrder = async () => {
-        try {
-
-            console.log("USER:", user);
-            console.log("TOKEN:", user?.token);
-            console.log("shippingInfo:", shippingInfo);
-            console.log("cartItems:", cartItems);
-
-           const token = localStorage.getItem("token");
-           const params = new URLSearchParams(window.location.search);
-const sessionId = params.get("session_id"); // 🔥 Stripe se aayega
-
-
-const res = await axios.post("/api/v1/order/new", {
-    shippingInfo,
-    orderItems: cartItems,
-    totalPrice: cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
-    paymentInfo: {
-        id: sessionId,
-        status: "succeeded"
-    }
-}, {
-    headers: {
-        Authorization: `Bearer ${token}`
-    }
-});
-
-            console.log("ORDER SUCCESS:", res.data);
-
-            navigate("/orders/success");
-
-        } catch (error) {
-            console.log("❌ FULL ERROR:", error.response?.data || error.message);
-            navigate("/orders/failed");
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/order/new",
+        {
+          shippingInfo,
+          orderItems: cartItems,
+          totalPrice: cartItems.reduce(
+            (sum, i) => sum + i.price * i.quantity,
+            0
+          ),
+          paymentInfo: {
+            id: sessionId,
+            status: "succeeded",
+          },
+        },
+        {
+          withCredentials: true, // 🔥 MUST
         }
-    };
+      );
 
-    createOrder();
+      navigate("/orders/success");
+    } catch (error) {
+      console.log("❌ ERROR:", error.response?.data || error.message);
+      navigate("/orders/failed");
+    }
+  };
 
+  createOrder();
 }, []);
 
+if (!shippingInfo || !cartItems?.length) {
+  navigate("/cart");
+}
+
+
+console.log("🔥 PaymentSuccess loaded");
+
+console.log("🔥 API CALL START");
     return <h2 className="text-center mt-20">Processing Order...</h2>;
 };
 

@@ -39,11 +39,14 @@ import NotFound from './components/NotFound';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentSuccess from "./components/Cart/PaymentSuccess";
+import axios from "axios";
 
- const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+axios.defaults.withCredentials = true;
+
+
 function App() {
 
-
+ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -92,11 +95,7 @@ function App() {
         <Route path="/products/:keyword" element={<Products />} />
 
         <Route path="/cart" element={<Cart />} />
-        <Route path="/payment-success" element={
-  <ProtectedRoute>
-    <PaymentSuccess />
-  </ProtectedRoute>
-} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
 
         {/* order process */}
         <Route path="/shipping" element={
