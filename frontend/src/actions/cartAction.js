@@ -1,9 +1,18 @@
-import axios from "axios"
-import { ADD_TO_CART, EMPTY_CART, REMOVE_FROM_CART, SAVE_SHIPPING_INFO } from "../constants/cartConstants";
+import axios from "axios";
+import {
+    ADD_TO_CART,
+    EMPTY_CART,
+    REMOVE_FROM_CART,
+    SAVE_SHIPPING_INFO
+} from "../constants/cartConstants";
 
-// add to cart
+// ✅ IMPORTANT
+const API = process.env.REACT_APP_API_URL;
+
+// Add to Cart
 export const addItemsToCart = (id, quantity = 1) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+
+    const { data } = await axios.get(`${API}/product/${id}`);
 
     dispatch({
         type: ADD_TO_CART,
@@ -19,10 +28,10 @@ export const addItemsToCart = (id, quantity = 1) => async (dispatch, getState) =
         },
     });
 
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};
 
-// remove cart item
+// Remove Item
 export const removeItemsFromCart = (id) => async (dispatch, getState) => {
 
     dispatch({
@@ -30,18 +39,18 @@ export const removeItemsFromCart = (id) => async (dispatch, getState) => {
         payload: id,
     });
 
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};
 
-// empty cart
+// Empty Cart
 export const emptyCart = () => async (dispatch, getState) => {
 
     dispatch({ type: EMPTY_CART });
 
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};
 
-// save shipping info
+// Save Shipping Info
 export const saveShippingInfo = (data) => async (dispatch) => {
 
     dispatch({
@@ -50,4 +59,4 @@ export const saveShippingInfo = (data) => async (dispatch) => {
     });
 
     localStorage.setItem('shippingInfo', JSON.stringify(data));
-}
+};
