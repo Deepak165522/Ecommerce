@@ -12,8 +12,19 @@ const app = express();
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({ path: 'backend/config/config.env' });
 }
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ecommerce-theta-six-58.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: function(origin, callback){
+    if(!origin || allowedOrigins.includes(origin)){
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked"));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
