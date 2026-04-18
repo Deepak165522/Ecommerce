@@ -13,10 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({ path: 'backend/config/config.env' });
 }
 app.use(cors({
-  origin: [
-    "https://flipkart-l3du.vercel.app",
-    "http://localhost:3000"
-  ],
+  origin: true,
   credentials: true
 }));
 app.use(express.json());
