@@ -39,10 +39,12 @@ import {
 
 import axios from 'axios';
 
-// ✅ IMPORTANT
+// ✅ BASE URL
 const API = process.env.REACT_APP_API_URL;
 
-// Login User
+// ================= AUTH =================
+
+// Login
 export const loginUser = (email, password) => async (dispatch) => {
     try {
         dispatch({ type: LOGIN_USER_REQUEST });
@@ -66,7 +68,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     }
 };
 
-// Register User
+// Register
 export const registerUser = (userData) => async (dispatch) => {
     try {
         dispatch({ type: REGISTER_USER_REQUEST });
@@ -110,7 +112,7 @@ export const loadUser = () => async (dispatch) => {
     }
 };
 
-// Logout User
+// Logout
 export const logoutUser = () => async (dispatch) => {
     try {
         await axios.get(`${API}/logout`);
@@ -122,6 +124,8 @@ export const logoutUser = () => async (dispatch) => {
         });
     }
 };
+
+// ================= PROFILE =================
 
 // Update Profile
 export const updateProfile = (userData) => async (dispatch) => {
@@ -171,6 +175,8 @@ export const updatePassword = (passwords) => async (dispatch) => {
     }
 };
 
+// ================= PASSWORD =================
+
 // Forgot Password
 export const forgotPassword = (email) => async (dispatch) => {
     try {
@@ -190,7 +196,7 @@ export const forgotPassword = (email) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FORGOT_PASSWORD_FAIL,
-            payload: error?.response?.data?.message || "Forgot failed",
+            payload: error?.response?.data?.message || "Error",
         });
     }
 };
@@ -214,12 +220,99 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: RESET_PASSWORD_FAIL,
-            payload: error?.response?.data?.message || "Reset failed",
+            payload: error?.response?.data?.message || "Error",
         });
     }
 };
 
-// Clear Errors
+// ================= ADMIN =================
+
+// Get All Users
+export const getAllUsers = () => async (dispatch) => {
+    try {
+        dispatch({ type: ALL_USERS_REQUEST });
+
+        const { data } = await axios.get(`${API}/admin/users`);
+
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data.users,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ALL_USERS_FAIL,
+            payload: error?.response?.data?.message || "Error",
+        });
+    }
+};
+
+// Get User Details
+export const getUserDetails = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_DETAILS_REQUEST });
+
+        const { data } = await axios.get(`${API}/admin/user/${id}`);
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data.user,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: USER_DETAILS_FAIL,
+            payload: error?.response?.data?.message || "Error",
+        });
+    }
+};
+
+// Update User
+export const updateUser = (id, userData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_USER_REQUEST });
+
+        const { data } = await axios.put(
+            `${API}/admin/user/${id}`,
+            userData,
+            { headers: { "Content-Type": "application/json" } }
+        );
+
+        dispatch({
+            type: UPDATE_USER_SUCCESS,
+            payload: data.success,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_FAIL,
+            payload: error?.response?.data?.message || "Error",
+        });
+    }
+};
+
+// Delete User
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_USER_REQUEST });
+
+        const { data } = await axios.delete(`${API}/admin/user/${id}`);
+
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data.success,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_USER_FAIL,
+            payload: error?.response?.data?.message || "Error",
+        });
+    }
+};
+
+// ================= COMMON =================
+
 export const clearErrors = () => async (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
 };
