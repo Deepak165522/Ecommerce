@@ -14,16 +14,15 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://ecommerce-theta-six-58.vercel.app",
   "https://ecommerce-dd4a759f4-deepaks-projects-7503904a.vercel.app"
 ];
 
 app.use(cors({
   origin: function(origin, callback){
-    if(!origin || origin.includes("vercel.app")){
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(null, true); // allow localhost भी
+      callback(new Error("CORS blocked"));
     }
   },
   credentials: true
