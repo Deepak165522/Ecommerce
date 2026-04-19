@@ -39,6 +39,8 @@ import {
 
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 // ✅ BASE URL
 const API = process.env.REACT_APP_API_URL;
 
