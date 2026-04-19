@@ -15,7 +15,8 @@ if (process.env.NODE_ENV !== 'production') {
 const allowedOrigins = [
   "http://localhost:3000",
   "https://ecommerce-dd4a759f4-deepaks-projects-7503904a.vercel.app",
-  "https://ecommerce-riw7rik7w-deepaks-projects-7503904a.vercel.app"
+  "https://ecommerce-riw7rik7w-deepaks-projects-7503904a.vercel.app",
+  "https://ecommerce-theta-six-58.vercel.app" // ✅ ADD THIS
 ];
 
 app.use(cors({
