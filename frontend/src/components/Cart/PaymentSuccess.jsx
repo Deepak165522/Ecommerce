@@ -5,53 +5,54 @@ import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
 
-    const navigate = useNavigate();
-    const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
 
-    useEffect(() => {
-        const createOrder = async () => {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const sessionId = params.get("session_id");
+  useEffect(() => {
 
-                const res = await axios.post(
-                    `${process.env.REACT_APP_API_URL}/order/new`,  // ✅ FIXED
-                    {
-                        shippingInfo,
-                        orderItems: cartItems,
-                        totalPrice: cartItems.reduce(
-                            (sum, i) => sum + i.price * i.quantity,
-                            0
-                        ),
-                        paymentInfo: {
-                            id: sessionId,
-                            status: "succeeded",
-                        },
-                    },
-                    {
-                        withCredentials: true,
-                    }
-                );
-
-      navigate("/orders/success");
-    } catch (error) {
-      console.log("❌ ERROR:", error.response?.data || error.message);
-      navigate("/orders/failed");
+    // 🔥 FIRST CHECK INSIDE useEffect
+    if (!shippingInfo || !cartItems?.length) {
+      navigate("/cart");
+      return;
     }
-  };
 
-  createOrder();
-}, []);
+    const createOrder = async () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get("session_id");
 
-if (!shippingInfo || !cartItems?.length) {
-  navigate("/cart");
-}
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}/order/new`,
+          {
+            shippingInfo,
+            orderItems: cartItems,
+            totalPrice: cartItems.reduce(
+              (sum, i) => sum + i.price * i.quantity,
+              0
+            ),
+            paymentInfo: {
+              id: sessionId,
+              status: "succeeded",
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
 
+        navigate("/orders/success");
 
-console.log("🔥 PaymentSuccess loaded");
+      } catch (error) {
+        console.log("❌ ERROR:", error.response?.data || error.message);
+        navigate("/orders/failed");
+      }
+    };
 
-console.log("🔥 API CALL START");
-    return <h2 className="text-center mt-20">Processing Order...</h2>;
+    createOrder();
+
+  }, [shippingInfo, cartItems, navigate]);
+
+  return <h2 className="text-center mt-20">Processing Order...</h2>;
 };
 
 export default PaymentSuccess;
