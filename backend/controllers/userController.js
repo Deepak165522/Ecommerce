@@ -46,10 +46,7 @@ console.log("AVATAR VALUE:", req.body.avatar);
         email,
         gender,
         password,
-        avatar: {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-        },
+        avatar: avatarData
     });
 
     sendToken(user, 201, res);
@@ -116,7 +113,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetToken}`;
-    const resetPasswordUrl = `https://${req.get("host")}/password/reset/${resetToken}`;
+  const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetToken}`;
 
     // const message = `Your password reset token is : \n\n ${resetPasswordUrl}`;
 
