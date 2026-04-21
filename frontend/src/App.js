@@ -171,7 +171,7 @@ function App() {
         } ></Route>
 
         <Route path="/admin/dashboard" element={
-          <ProtectedRoute >
+          <ProtectedRoute isAdmin={true}>
             <Dashboard activeTab={0}>
               <MainData />
             </Dashboard>
